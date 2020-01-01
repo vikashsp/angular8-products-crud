@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsService } from "../products.service";
+import { ActivatedRoute, Router } from "@angular/router";
 import Product from '../Product';
 
 @Component({
@@ -9,7 +10,10 @@ import Product from '../Product';
 })
 export class ProductGetComponent implements OnInit {
   products: Product[];
-  constructor(private ps: ProductsService) {}
+  sham: string;
+  constructor(private ps: ProductsService, private router: Router, private route: ActivatedRoute) {
+    this.sham = Date();
+  }
   
   getAllProducts() {
     this.ps.getProducts().subscribe((data: Product[]) => {
@@ -23,8 +27,10 @@ export class ProductGetComponent implements OnInit {
 
   deleteProduct(id) {
     this.ps.deleteProduct(id).subscribe(res => {
+      // debugger
+      console.log(this.sham);
       this.getAllProducts();
-      this.products = this.products.filter(item => item._id !== id);
+      //this.products = this.products.filter(item => item._id !== id);
     });
   }
 }
